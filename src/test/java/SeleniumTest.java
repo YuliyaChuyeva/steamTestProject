@@ -1,4 +1,4 @@
-import core.DriverSingleton;
+import core.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -8,7 +8,7 @@ public class SeleniumTest {
 
     @Test
     public void testSteamRun() {
-        WebDriver driver = DriverSingleton.getDriver();
+        WebDriver driver = Driver.getDriver();
         driver.manage().window().maximize();
         driver.get("https://store.steampowered.com/");
         driver.findElement(By.xpath("//*[contains(text(),'Установить')]")).click();
