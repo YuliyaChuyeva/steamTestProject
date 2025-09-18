@@ -1,12 +1,14 @@
 package core;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
+import java.util.concurrent.TimeUnit;
+
+
+@Slf4j
 public class Driver {
     private static WebDriver driver;
-    private static final Logger logger = LoggerFactory.getLogger(Driver.class);
 
     private Driver() {
     }
@@ -19,10 +21,11 @@ public class Driver {
     }
 
     public static void navigateMainPage() {
-        driver.manage().window().maximize();
+        Driver.getInstance().manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         String url = PropertiesReader.getInstance().getUrl();
         driver.get(url);
-        logger.info("Переход на главную страницу: {}", url);
+        log.info("Go to the main page: {}", url);
     }
 
     public static void quitDriver() {

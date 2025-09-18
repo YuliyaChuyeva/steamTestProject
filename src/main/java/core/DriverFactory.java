@@ -8,14 +8,20 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 
 public class DriverFactory {
-    private static final String CHROME = "CHROME";
-    private static final String FIREFOX = "FIREFOX";
-    private static final String EDGE = "EDGE";
-
     public static WebDriver initDriver() {
         String browserName = PropertiesReader.getInstance().getBrowser();
+        BrowserType browserType;
+        if (browserName == null) {
+            browserType = BrowserType.CHROME;
+        } else {
+            try {
+                browserType = BrowserType.valueOf(browserName.toUpperCase().trim());
+            } catch (IllegalArgumentException e) {
+                browserType = BrowserType.CHROME;
+            }
+        }
         WebDriver driver;
-        switch (browserName.toUpperCase()) {
+        switch (browserType) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
