@@ -1,28 +1,29 @@
 import core.Driver;
-import elementFactory.Link;
-import elementFactory.SearchBox;
-import org.openqa.selenium.By;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import service.MainPage;
+import service.SearchResultPage;
 
-
+@Slf4j
 public class SeleniumTest {
-    private SearchBox searchBox;
-    private Link firstGameLink;
+    private MainPage mainPage;
 
     @BeforeMethod
     public void setUp() {
         Driver.navigateMainPage();
-        searchBox = new SearchBox(By.xpath("//input[@id='store_nav_search_term']"));
-        firstGameLink = new Link(By.cssSelector(".search_result_row:first-child"));
+        mainPage = new MainPage();
     }
 
     @Test
     public void searchAndOpenGame() {
-        searchBox.search("No Man's Sky");
-        firstGameLink.click();
+        SearchResultPage resultPage = mainPage.searchGame("No Man's Sky");
+        String firstGameTitle = resultPage.getFirstGameTitle();
+        log.info("First game in results: {}", firstGameTitle);
+        Assert.assertEquals(firstGameTitle, "No Man's Sky", "Первая игра не соответствует");
+        resultPage.clickFirstGame();
         String title = Driver.getInstance().getTitle();
         Assert.assertTrue(title.contains("No Man's Sky"), "The wrong page is open.");
         System.out.println("Game page successfully opened.");
