@@ -20,7 +20,7 @@ public abstract class BaseElement {
         log.debug("Initialized element with locator: {}", locator);
     }
 
-    protected WebElement getElement() {
+    public WebElement getElement() {
         waitForElementPresent();
         log.debug("Found element by locator: {}", locator);
         return Driver.getInstance().findElement(locator);
