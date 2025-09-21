@@ -1,36 +1,22 @@
-import core.Driver;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import service.MainPage;
 import service.SearchResultPage;
 
 @Slf4j
-public class SeleniumTest {
-    private MainPage mainPage;
-
-    @BeforeMethod
-    public void setUp() {
-        Driver.navigateMainPage();
-        mainPage = new MainPage();
-    }
+public class SeleniumTest extends BaseTest {
+    private static final String GAME_NAME = "No Man's Sky";
 
     @Test
     public void searchAndOpenGame() {
-        SearchResultPage resultPage = mainPage.searchGame("No Man's Sky");
-        String firstGameTitle = resultPage.getFirstGameTitle();
-        log.info("First game in results: {}", firstGameTitle);
-        Assert.assertEquals(firstGameTitle, "No Man's Sky", "Первая игра не соответствует");
-        resultPage.clickFirstGame();
-        String title = Driver.getInstance().getTitle();
-        Assert.assertTrue(title.contains("No Man's Sky"), "The wrong page is open.");
-        System.out.println("Game page successfully opened.");
-    }
-
-    @AfterMethod
-    public void closeDriver() {
-        Driver.quitDriver();
+        String firstGameTitle = new MainPage()
+                .searchGame(GAME_NAME)
+                .getFirstGameTitle();
+        Assert.assertEquals(firstGameTitle, GAME_NAME, "The first game in the search results doesn't match the expected one");
+        String pageTitleAfterClick = new SearchResultPage()
+                .clickFirstGame()
+                .getPageTitle();
+        Assert.assertTrue(pageTitleAfterClick.contains(GAME_NAME), "The wrong page is open.");
     }
 }
