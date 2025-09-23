@@ -1,35 +1,22 @@
-import core.Driver;
-import elementFactory.Link;
-import elementFactory.SearchBox;
-import org.openqa.selenium.By;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import service.MainPage;
+import service.SearchResultPage;
 
-
-public class SeleniumTest {
-    private SearchBox searchBox;
-    private Link firstGameLink;
-
-    @BeforeMethod
-    public void setUp() {
-        Driver.navigateMainPage();
-        searchBox = new SearchBox(By.xpath("//input[@id='store_nav_search_term']"));
-        firstGameLink = new Link(By.cssSelector(".search_result_row:first-child"));
-    }
+@Slf4j
+public class SeleniumTest extends BaseTest {
+    private static final String GAME_NAME = "No Man's Sky";
 
     @Test
     public void searchAndOpenGame() {
-        searchBox.search("No Man's Sky");
-        firstGameLink.click();
-        String title = Driver.getInstance().getTitle();
-        Assert.assertTrue(title.contains("No Man's Sky"), "The wrong page is open.");
-        System.out.println("Game page successfully opened.");
-    }
-
-    @AfterMethod
-    public void closeDriver() {
-        Driver.quitDriver();
+        String firstGameTitle = new MainPage()
+                .searchGame(GAME_NAME)
+                .getFirstGameTitle();
+        Assert.assertEquals(firstGameTitle, GAME_NAME, "The first game in the search results doesn't match the expected one");
+        String pageTitleAfterClick = new SearchResultPage()
+                .clickFirstGame()
+                .getPageTitle();
+        Assert.assertTrue(pageTitleAfterClick.contains(GAME_NAME), "The wrong page is open.");
     }
 }

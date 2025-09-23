@@ -2,12 +2,13 @@ package elementFactory;
 
 import org.openqa.selenium.By;
 
-public class Button extends BaseElement{
-    public Button( By locator) {
-        super( locator);
+public class Button extends BaseElement {
+    public Button(By locator) {
+        super(locator);
     }
+
     @Override
-    public void click(){
+    public void click() {
         clickAction();
     }
 }
