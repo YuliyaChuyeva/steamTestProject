@@ -7,7 +7,7 @@ import service.pages.MainPage;
 import service.pages.SearchResultPage;
 
 @Slf4j
-public class SeleniumTest extends BaseTest {
+public class GameDetailsComparisonTest extends BaseTest {
     private static final String GAME_NAME = "No Man's Sky";
 
     @Test

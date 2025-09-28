@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="GameDataConsistencySuite" verbose="1">
+    <test name="Nopackage">
+        <classes>
+            <class name="GameDetailsComparisonTest">
+            <methods>
+             <include name="verifyGameDataBetweenPages"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
