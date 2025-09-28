@@ -28,8 +28,7 @@ public class SeleniumTest extends BaseTest {
                 .searchGame(GAME_NAME);
         Game gameFromSearch = searchResultPage.getFirstGameData();
         searchResultPage.clickFirstGame();
-        GamePage gamePage = new GamePage();
-        Game gameAfterSearch = gamePage.getGameDetails();
+        Game gameAfterSearch = new GamePage().getGameDetails();
         Assert.assertEquals(gameFromSearch, gameAfterSearch, "Game data mismatch between search results and game page");
         //assertThat(gameFromSearch).isEqualTo(gameAfterSearch);
     }
