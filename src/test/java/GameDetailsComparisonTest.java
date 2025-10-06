@@ -6,6 +6,8 @@ import service.pages.GamePage;
 import service.pages.MainPage;
 import service.pages.SearchResultPage;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @Slf4j
 public class GameDetailsComparisonTest extends BaseTest {
     private static final String GAME_NAME = "No Man's Sky";
@@ -29,7 +31,10 @@ public class GameDetailsComparisonTest extends BaseTest {
         Game gameFromSearch = searchResultPage.getFirstGameData();
         searchResultPage.clickFirstGame();
         Game gameAfterSearch = new GamePage().getGameDetails();
-        Assert.assertEquals(gameFromSearch, gameAfterSearch, "Game data mismatch between search results and game page");
-        //assertThat(gameFromSearch).isEqualTo(gameAfterSearch);
+        //Assert.assertEquals(gameFromSearch, gameAfterSearch, "Game data mismatch between search results and game page");
+        assertThat(gameFromSearch)
+                .usingRecursiveComparison()
+                .as("Game data mismatch between search results and game page")
+                .isEqualTo(gameAfterSearch);
     }
 }

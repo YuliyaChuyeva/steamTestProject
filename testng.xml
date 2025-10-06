@@ -4,9 +4,9 @@
     <test name="Nopackage">
         <classes>
             <class name="GameDetailsComparisonTest">
-            <methods>
-             <include name="verifyGameDataBetweenPages"/>
-            </methods>
+                <methods>
+                    <include name="verifyGameDataBetweenPages"/>
+                </methods>
             </class>
         </classes>
     </test>
