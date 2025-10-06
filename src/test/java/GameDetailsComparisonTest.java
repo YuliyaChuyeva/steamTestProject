@@ -31,7 +31,6 @@ public class GameDetailsComparisonTest extends BaseTest {
         Game gameFromSearch = searchResultPage.getFirstGameData();
         searchResultPage.clickFirstGame();
         Game gameAfterSearch = new GamePage().getGameDetails();
-        //Assert.assertEquals(gameFromSearch, gameAfterSearch, "Game data mismatch between search results and game page");
         assertThat(gameFromSearch)
                 .usingRecursiveComparison()
                 .as("Game data mismatch between search results and game page")
