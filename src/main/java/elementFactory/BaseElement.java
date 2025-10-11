@@ -57,4 +57,15 @@ public abstract class BaseElement {
         getElement().click();
         log.info("Clicked on element:{}", locator);
     }
+
+    public void waitForVisibility() {
+        new WebDriverWait(Driver.getInstance(), Duration.ofSeconds(20))
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    protected WebElement getVisibleElement() {
+        waitForVisibility();
+        return Driver.getInstance().findElement(locator);
+    }
+
 }

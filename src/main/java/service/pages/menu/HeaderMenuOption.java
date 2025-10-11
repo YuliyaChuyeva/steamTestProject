@@ -1,0 +1,17 @@
+package service.pages.menu;
+
+import lombok.Getter;
+
+@Getter
+public enum HeaderMenuOption {
+    STORE("Store"),
+    COMMUNITY("Community"),
+    ABOUT("About"),
+    SUPPORT("Support");
+
+    private final String displayName;
+
+    HeaderMenuOption(String displayName) {
+        this.displayName = displayName;
+    }
+}
