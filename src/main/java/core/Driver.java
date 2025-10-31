@@ -1,6 +1,7 @@
 package core;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -21,11 +22,20 @@ public class Driver {
     }
 
     public static void navigateMainPage() {
-        Driver.getInstance().manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebDriver d = Driver.getInstance();
+        d.manage().window().maximize();
+        d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         String url = PropertiesReader.getInstance().getUrl();
-        driver.get(url);
-        log.info("Go to the main page: {}", url);
+        d.get(url);
+        d.manage().deleteAllCookies();
+        Cookie lang = new Cookie.Builder("Steam_Language", "english")
+                .domain("store.steampowered.com")
+                .path("/")
+                .isSecure(true)
+                .build();
+        d.manage().addCookie(lang);
+        d.navigate().refresh();
+        log.info("Go to the main page (English): {}", url);
     }
 
     public static void quitDriver() {

@@ -3,6 +3,7 @@ package elementFactory;
 import core.Driver;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,12 +21,6 @@ public abstract class BaseElement {
         this.locator = locator;
         driver = Driver.getInstance();
         log.debug("Initialized element with locator: {}", locator);
-    }
-
-    protected WebElement getElement() {
-        waitForElementPresent();
-        log.debug("Found element by locator: {}", locator);
-        return driver.findElement(locator);
     }
 
     public String getText() {
@@ -63,9 +58,24 @@ public abstract class BaseElement {
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public void scrollToElement() {
+        WebElement element = findElement();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        log.info("Scrolled to element: {}", locator);
+    }
+
     protected WebElement getVisibleElement() {
         waitForVisibility();
         return Driver.getInstance().findElement(locator);
     }
 
+    protected WebElement getElement() {
+        waitForElementPresent();
+        log.debug("Found element by locator: {}", locator);
+        return driver.findElement(locator);
+    }
+
+    protected WebElement findElement() {
+        return driver.findElement(locator);
+    }
 }

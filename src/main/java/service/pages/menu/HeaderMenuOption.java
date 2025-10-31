@@ -7,7 +7,7 @@ public enum HeaderMenuOption {
     STORE("Store"),
     COMMUNITY("Community"),
     ABOUT("About"),
-    SUPPORT("Support");
+    SUPPORT("SUPPORT");
 
     private final String displayName;
 

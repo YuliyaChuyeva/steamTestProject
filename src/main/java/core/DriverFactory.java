@@ -3,8 +3,12 @@ package core;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DriverFactory {
@@ -24,7 +28,16 @@ public class DriverFactory {
         switch (browserType) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                Map<String, Object> prefs = new HashMap<>();
+                prefs.put("translate", Map.of("enabled", false));
+                prefs.put("translate_whitelists", new HashMap<>());
+                prefs.put("intl.accept_languages", "en-US,en"); // заголовок Accept-Language
+                options.setExperimentalOption("prefs", prefs);
+                options.addArguments("--lang=en-US");
+                options.addArguments("--disable-notifications");
+                options.addArguments("--disable-popup-blocking");
+                driver = new ChromeDriver(options);
                 break;
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();

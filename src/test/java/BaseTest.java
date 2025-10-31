@@ -8,8 +8,11 @@ public abstract class BaseTest {
         Driver.navigateMainPage();
     }
 
+
     @AfterMethod
-    public void closeDriver() {
-        Driver.quitDriver();
+    public void close() {
+            Driver.getInstance().close();
+        }
     }
-}
+
+
