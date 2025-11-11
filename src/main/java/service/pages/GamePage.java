@@ -1,14 +1,14 @@
 package service.pages;
 
-import elementFactory.Button;
-import elementFactory.Label;
+import element_factory.Button;
+import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import service.object.Game;
 
 @Slf4j
 public class GamePage extends AbstractPage {
-    private Label priceElement = new Label(By.xpath("//div[@id='game_area_purchase_section_add_to_cart_97032']//div[@class='discount_final_price']"));
+    private Label priceElement = new Label(By.xpath("//div[@class='game_purchase_price price']"));
     private Label releaseElement = new Label(By.cssSelector(".release_date .date"));
     private Label titleElement = new Label(By.id("appHubAppName"));
     private Button addtoCartBtn = new Button(By.xpath("//a[contains(@id,'btn_add_to_cart_')]//span[text()='Add to Cart']"));

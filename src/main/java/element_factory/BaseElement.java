@@ -1,4 +1,4 @@
-package elementFactory;
+package element_factory;
 
 import core.Driver;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 @Slf4j
 public abstract class BaseElement {
@@ -21,6 +22,24 @@ public abstract class BaseElement {
         this.locator = locator;
         driver = Driver.getInstance();
         log.debug("Initialized element with locator: {}", locator);
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+    protected WebElement getVisibleElement() {
+        waitForVisibility();
+        return Driver.getInstance().findElement(locator);
+    }
+
+    protected WebElement getElement() {
+        waitForElementPresent();
+        log.debug("Found element by locator: {}", locator);
+        return driver.findElement(locator);
     }
 
     public String getText() {
@@ -59,23 +78,33 @@ public abstract class BaseElement {
     }
 
     public void scrollToElement() {
-        WebElement element = findElement();
+        WebElement element = getElement();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
         log.info("Scrolled to element: {}", locator);
     }
 
-    protected WebElement getVisibleElement() {
-        waitForVisibility();
-        return Driver.getInstance().findElement(locator);
-    }
-
-    protected WebElement getElement() {
-        waitForElementPresent();
-        log.debug("Found element by locator: {}", locator);
-        return driver.findElement(locator);
-    }
-
-    protected WebElement findElement() {
-        return driver.findElement(locator);
+    public static int scrollToBottomUntilNoNewElements(String xpathOfElements) {
+        List<Label> elements = Label.findAll(By.xpath(xpathOfElements));
+        int previousCount = 0;
+        int attempts = 0;
+        while (attempts < 10) {
+            attempts++;
+            if (!elements.isEmpty()) {
+                elements.get(elements.size() - 1).scrollToElement();
+            } else {
+                ((JavascriptExecutor) Driver.getInstance())
+                        .executeScript("window.scrollTo(0, document.body.scrollHeight);");
+            }
+            sleep(2000L + attempts * 500L);
+            List<Label> updated = Label.findAll(By.xpath(xpathOfElements));
+            if (updated.size() <= previousCount) {
+                log.info("No more new elements have appeared - end of page after {} scroll", attempts);
+                break;
+            }
+            previousCount = updated.size();
+            elements = updated;
+            log.info("Scroll {} → found {} elements", attempts, elements.size());
+        }
+        return elements.size();
     }
 }

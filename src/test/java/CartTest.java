@@ -40,12 +40,14 @@ public class CartTest extends BaseTest {
         gamePage.addToCart().viewMyCart();
         CartPage cartPage = new CartPage();
         Game actualGame = cartPage.getCartGame();
-        expectedGame = new Game(expectedGame.getTitle(),
-                expectedGame.getPrice().replace(" USD", "").trim(),
-                expectedGame.getReleaseDate());
+        String normalizedPrice = actualGame.getPrice().trim();
+        if (!normalizedPrice.endsWith("USD")) {
+            normalizedPrice = normalizedPrice + " USD";
+        }
+        actualGame.setPrice(normalizedPrice);
         assertThat(actualGame)
                 .usingRecursiveComparison()
-                .ignoringFields("releaseDate") // в корзине нет даты
+                .ignoringFields(Game.Fields.releaseDate)
                 .as("The game in cart doesn't match the one added")
                 .isEqualTo(expectedGame);
     }

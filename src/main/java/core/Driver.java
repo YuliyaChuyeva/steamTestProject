@@ -22,20 +22,24 @@ public class Driver {
     }
 
     public static void navigateMainPage() {
-        WebDriver d = Driver.getInstance();
-        d.manage().window().maximize();
-        d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebDriver webDriver = Driver.getInstance();
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         String url = PropertiesReader.getInstance().getUrl();
-        d.get(url);
-        d.manage().deleteAllCookies();
+        webDriver.get(url);
+        applyEnglishCookie(webDriver);
+    }
+
+    public static void applyEnglishCookie(WebDriver driver) {
+        driver.manage().deleteAllCookies();
         Cookie lang = new Cookie.Builder("Steam_Language", "english")
                 .domain("store.steampowered.com")
                 .path("/")
                 .isSecure(true)
                 .build();
-        d.manage().addCookie(lang);
-        d.navigate().refresh();
-        log.info("Go to the main page (English): {}", url);
+        driver.manage().addCookie(lang);
+        driver.navigate().refresh();
+        log.info("Applied language=english cookie and refreshed page");
     }
 
     public static void quitDriver() {

@@ -1,5 +1,6 @@
 package core;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -33,5 +34,39 @@ public class PropertiesReader {
 
     public String getUrl() {
         return properties.getProperty("url");
+    }
+
+    public boolean isDownloadsEnabled() {
+        return Boolean.parseBoolean(properties.getProperty("download.enabled", "true"));
+    }
+
+    public boolean isCleanDownloadsOnStart() {
+        return Boolean.parseBoolean(properties.getProperty("download.clean_on_start", "true"));
+    }
+
+    public String getDownloadDirPath() {
+        String fromConfig = properties.getProperty("download.dir", "target/downloads");
+        File dir = new File(fromConfig);
+        if (!dir.isAbsolute()) {
+            dir = new File(System.getProperty("user.dir"), fromConfig);
+        }
+        return dir.getAbsolutePath();
+    }
+
+    public void ensureDirExists(String dirPath) {
+        new File(dirPath).mkdirs();
+    }
+
+    public void cleanDir(String dirPath) {
+        File dir = new File(dirPath);
+        if (!dir.exists()) return;
+        File[] files = dir.listFiles();
+        if (files == null) return;
+        for (File file : files) {
+            try {
+                file.delete();
+            } catch (Exception ignored) {
+            }
+        }
     }
 }

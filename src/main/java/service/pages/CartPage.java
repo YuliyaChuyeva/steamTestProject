@@ -1,7 +1,7 @@
 package service.pages;
 
-import elementFactory.Button;
-import elementFactory.Label;
+import element_factory.Button;
+import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import service.object.Game;
