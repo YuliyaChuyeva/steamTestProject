@@ -1,6 +1,7 @@
 package core;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,7 +11,45 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class DriverFactory {
+    public static WebDriver initDriver() {
+        String browserName = PropertiesReader.getInstance().getBrowser();
+        BrowserType browserType;
+        if (browserName == null) {
+            browserType = BrowserType.CHROME;
+        } else {
+            try {
+                browserType = BrowserType.valueOf(browserName.toUpperCase().trim());
+            } catch (IllegalArgumentException e) {
+                browserType = BrowserType.CHROME;
+            }
+        }
+        WebDriver driver;
+        switch (browserType) {
+            case CHROME:
+                WebDriverManager.chromedriver().setup();
+                String downloadDir = PropertiesReader.getInstance().getDownloadDirPath();
+                ChromeOptions options = buildChromeOptions(downloadDir);
+                ChromeDriver chromeDriver = new ChromeDriver(options);
+                allowDownloadsViaCDP(chromeDriver, downloadDir);
+                driver = chromeDriver;
+                break;
+            case FIREFOX:
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case EDGE:
+                WebDriverManager.edgedriver().setup();
+                driver = new EdgeDriver();
+                break;
+            default:
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+        }
+        return driver;
+    }
+
     private static ChromeOptions buildChromeOptions(String downloadDir) {
         ChromeOptions options = new ChromeOptions();
         Map<String, Object> prefs = buildChromePrefs(downloadDir);
@@ -43,38 +82,11 @@ public class DriverFactory {
         options.addArguments("--allow-running-insecure-content");
     }
 
-    public static WebDriver initDriver() {
-        String browserName = PropertiesReader.getInstance().getBrowser();
-        BrowserType browserType;
-        if (browserName == null) {
-            browserType = BrowserType.CHROME;
-        } else {
-            try {
-                browserType = BrowserType.valueOf(browserName.toUpperCase().trim());
-            } catch (IllegalArgumentException e) {
-                browserType = BrowserType.CHROME;
-            }
-        }
-        WebDriver driver;
-        switch (browserType) {
-            case CHROME:
-                WebDriverManager.chromedriver().setup();
-                String downloadDir = PropertiesReader.getInstance().getDownloadDirPath();
-                ChromeOptions options = buildChromeOptions(downloadDir);
-                driver = new ChromeDriver(options);
-                break;
-            case FIREFOX:
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                break;
-            case EDGE:
-                WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
-                break;
-            default:
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-        }
-        return driver;
+    private static void allowDownloadsViaCDP(ChromeDriver chromeDriver, String downloadDir) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("behavior", "allow");
+        params.put("downloadPath", downloadDir);
+        chromeDriver.executeCdpCommand("Page.setDownloadBehavior", params);
+        log.info("Allowed downloads via CDP to: {}", downloadDir);
     }
 }

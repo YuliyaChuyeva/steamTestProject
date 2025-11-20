@@ -10,13 +10,17 @@ import java.io.File;
 
 @Slf4j
 public class DownloadSteamTest extends BaseTest {
-    @Test(timeOut = 90000)
+    @Test
     public void installSteam() {
         new MainPage().getHeaderMenu().openInstallSteam();
         File installer = new InstallSteamPage().downloadInstaller();
         String name = installer.getName().toLowerCase();
         Assert.assertTrue(
-                name.endsWith(".exe") || name.endsWith(".msi") || name.endsWith(".dmg") || name.endsWith(".deb") || name.endsWith(".pkg"),
+                name.endsWith(".exe")
+                        || name.endsWith(".msi")
+                        || name.endsWith(".dmg")
+                        || name.endsWith(".deb")
+                        || name.endsWith(".pkg"),
                 "Unexpected installer extension: " + name
         );
     }

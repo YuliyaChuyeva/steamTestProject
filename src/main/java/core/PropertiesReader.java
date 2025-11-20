@@ -3,6 +3,7 @@ package core;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -36,14 +37,6 @@ public class PropertiesReader {
         return properties.getProperty("url");
     }
 
-    public boolean isDownloadsEnabled() {
-        return Boolean.parseBoolean(properties.getProperty("download.enabled", "true"));
-    }
-
-    public boolean isCleanDownloadsOnStart() {
-        return Boolean.parseBoolean(properties.getProperty("download.clean_on_start", "true"));
-    }
-
     public String getDownloadDirPath() {
         String fromConfig = properties.getProperty("download.dir", "target/downloads");
         File dir = new File(fromConfig);
@@ -51,6 +44,12 @@ public class PropertiesReader {
             dir = new File(System.getProperty("user.dir"), fromConfig);
         }
         return dir.getAbsolutePath();
+    }
+
+    public Duration getDownloadTimeout() {
+        String value = properties.getProperty("download.timeout.seconds", "300");
+        long seconds = Long.parseLong(value.trim());
+        return Duration.ofSeconds(seconds);
     }
 
     public void ensureDirExists(String dirPath) {
