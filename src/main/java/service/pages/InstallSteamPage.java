@@ -10,7 +10,7 @@ import java.io.File;
 @Slf4j
 public class InstallSteamPage {
     private final Button bigInstallBtn = new Button(By.xpath("//a[contains(@class,'about_install_steam_link')]"));
-    private static final long STEAM_INSTALLER_MIN_BYTES = 2_306_867L;
+    public static final long STEAM_INSTALLER_MIN_BYTES = 2_306_867L;
 
     public File downloadInstaller() {
         bigInstallBtn.scrollToElement();

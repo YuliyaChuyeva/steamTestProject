@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class Label extends BaseElement {
@@ -26,21 +26,25 @@ public class Label extends BaseElement {
     }
 
     public static List<Label> findAll(By locator) {
-        var driver = Driver.getInstance();
-        var elements = driver.findElements(locator);
-        List<Label> labels = new ArrayList<>(elements.size());
-        String locatorText = locator.toString();
-        if (locatorText.startsWith("By.xpath: ")) {
-            String xp = locatorText.substring("By.xpath: ".length()).trim();
-            for (int i = 1; i <= elements.size(); i++) {
-                labels.add(new Label(By.xpath("(" + xp + ")[" + i + "]")));
-            }
-            return labels;
+        String raw = locator.toString();
+        if (!raw.startsWith("By.xpath: ")) {
+            throw new IllegalArgumentException(
+                    "Label.findAll() supports only XPath locators. Provided: " + raw
+            );
         }
-        for (int i = 0; i < elements.size(); i++) {
-            labels.add(new Label(locator));
+        List<WebElement> elements = findElements(locator);
+        if (elements.isEmpty()) {
+            log.warn("No elements found by locator: {}", locator);
+            return List.of();
         }
-        return labels;
+        String xpath = raw.substring("By.xpath: ".length()).trim();
+        return IntStream.rangeClosed(1, elements.size())
+                .mapToObj(i -> new Label(By.xpath("(" + xpath + ")[" + i + "]")))
+                .toList();
+    }
+
+    public static int scrollToBottomUntilNoNewElements(String xpathOfElements) {
+        return BaseElement.scrollToBottomUntilNoNewElements(xpathOfElements);
     }
 }
 

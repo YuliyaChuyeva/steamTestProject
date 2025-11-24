@@ -15,6 +15,7 @@ public class DownloadSteamTest extends BaseTest {
         new MainPage().getHeaderMenu().openInstallSteam();
         File installer = new InstallSteamPage().downloadInstaller();
         String name = installer.getName().toLowerCase();
+        long size = installer.length();
         Assert.assertTrue(
                 name.endsWith(".exe")
                         || name.endsWith(".msi")
@@ -22,6 +23,10 @@ public class DownloadSteamTest extends BaseTest {
                         || name.endsWith(".deb")
                         || name.endsWith(".pkg"),
                 "Unexpected installer extension: " + name
+        );
+        Assert.assertTrue(
+                size >= InstallSteamPage.STEAM_INSTALLER_MIN_BYTES,
+                "File size too small: " + size + " bytes"
         );
     }
 

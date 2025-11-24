@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 @Slf4j
@@ -24,7 +24,7 @@ public class Driver {
     public static void navigateMainPage() {
         WebDriver webDriver = Driver.getInstance();
         webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String url = PropertiesReader.getInstance().getUrl();
         webDriver.get(url);
         applyEnglishCookie(webDriver);

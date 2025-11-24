@@ -17,6 +17,5 @@ public class Waiter {
         new WebDriverWait(Driver.getInstance(), Duration.ofSeconds(10))
                 .until(driver -> (Boolean) ((JavascriptExecutor) driver)
                         .executeScript("return window.jQuery != undefined && jQuery.active ===0;"));
-
     }
 }

@@ -1,21 +1,32 @@
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
+import service.object.GameCard;
 import service.pages.CategoriesSearchResultPage;
 import service.pages.MainPage;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @Slf4j
 public class CategoriesRandomTest extends BaseTest {
-
     @Test
     public void randomCategory() {
-        String choiceCategory = new MainPage().getGameMenu().openCategoriesMenu().clickRandomCategory();
-        List<Integer> mismatched = new CategoriesSearchResultPage().getMismatchedGames(choiceCategory, 5);
-        assertThat(mismatched)
-                .withFailMessage("Some cards do not contain a category tag '%s': %s", choiceCategory, mismatched)
-                .isEmpty();
+        String chosenCategory = new MainPage()
+                .getGameMenu()
+                .openCategoriesMenu()
+                .clickRandomCategory();
+        String expectedTag = CategoriesSearchResultPage.normalize(chosenCategory);
+        List<GameCard> cards = new CategoriesSearchResultPage().getGameCardsOnPage();
+        SoftAssertions softly = new SoftAssertions();
+        cards.forEach(card ->
+                softly.assertThat(card.getTags())
+                        .as("Game: %s | Expected tag: %s | Tags: %s",
+                                card.getTitle(), expectedTag, card.getTags())
+                        .anyMatch(tag -> tag.contains(expectedTag))
+        );
+        softly.assertAll();
     }
 }
+
+
+

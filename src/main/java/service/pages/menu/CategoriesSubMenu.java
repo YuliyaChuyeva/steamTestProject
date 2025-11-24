@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import service.pages.AbstractPage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class CategoriesSubMenu extends AbstractPage {
@@ -17,13 +17,10 @@ public class CategoriesSubMenu extends AbstractPage {
 
     public List<String> getAllCategoriesName() {
         List<Label> nameLabels = Label.findAll(CATEGORY_NAMES);
-        List<String> names = new ArrayList<>();
-        for (Label label : nameLabels) {
-            String text = label.getText().trim();
-            if (!text.isEmpty()) {
-                names.add(text);
-            }
-        }
+        List<String> names = nameLabels.stream()
+                .map(label -> label.getText().trim())
+                .filter(text->!text.isEmpty())
+                .collect(Collectors.toList());
         log.info("Found {} categories: {}", names.size(), names);
         return names;
     }

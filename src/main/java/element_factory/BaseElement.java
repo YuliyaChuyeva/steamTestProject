@@ -1,11 +1,9 @@
 package element_factory;
 
 import core.Driver;
+import core.Waiter;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,19 +22,7 @@ public abstract class BaseElement {
         log.debug("Initialized element with locator: {}", locator);
     }
 
-    private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ignored) {
-        }
-    }
-
-    protected WebElement getVisibleElement() {
-        waitForVisibility();
-        return Driver.getInstance().findElement(locator);
-    }
-
-    protected WebElement getElement() {
+    public WebElement getElement() {
         waitForElementPresent();
         log.debug("Found element by locator: {}", locator);
         return driver.findElement(locator);
@@ -83,28 +69,44 @@ public abstract class BaseElement {
         log.info("Scrolled to element: {}", locator);
     }
 
-    public static int scrollToBottomUntilNoNewElements(String xpathOfElements) {
-        List<Label> elements = Label.findAll(By.xpath(xpathOfElements));
-        int previousCount = 0;
-        int attempts = 0;
-        while (attempts < 10) {
-            attempts++;
-            if (!elements.isEmpty()) {
-                elements.get(elements.size() - 1).scrollToElement();
+    public static int scrollToBottomUntilNoNewElements(String xpath) {
+        WebDriver driver = Driver.getInstance();
+        By locator = By.xpath(xpath);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        int count = 0;
+        for (int i = 1; i <= 10; i++) {
+            List<WebElement> elements = findElements(locator);
+            count = elements.size();
+            if (count > 0) {
+                WebElement last = elements.get(count - 1);
+                ((JavascriptExecutor) driver)
+                        .executeScript("arguments[0].scrollIntoView({block:'end'});", last);
             } else {
-                ((JavascriptExecutor) Driver.getInstance())
+                ((JavascriptExecutor) driver)
                         .executeScript("window.scrollTo(0, document.body.scrollHeight);");
             }
-            sleep(2000L + attempts * 500L);
-            List<Label> updated = Label.findAll(By.xpath(xpathOfElements));
-            if (updated.size() <= previousCount) {
-                log.info("No more new elements have appeared - end of page after {} scroll", attempts);
+            Waiter.waitForAjax();
+            Waiter.waitForPageToLoad();
+            try {
+                wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
+            } catch (TimeoutException e) {
                 break;
             }
-            previousCount = updated.size();
-            elements = updated;
-            log.info("Scroll {} → found {} elements", attempts, elements.size());
         }
-        return elements.size();
+        return driver.findElements(locator).size();
+    }
+
+    protected static List<WebElement> findElements(By locator) {
+        WebDriver driver = Driver.getInstance();
+        List<WebElement> elements = driver.findElements(locator);
+        log.debug("Found {} elements by locator: {}", elements.size(), locator);
+        return elements;
+    }
+
+    protected WebElement getVisibleElement() {
+        waitForVisibility();
+        return Driver.getInstance().findElement(locator);
     }
 }
+
+

@@ -20,29 +20,11 @@ public class DownloadHelper {
         log.info("Cleaned downloads dir: {}", dir);
     }
 
-    //Все файлы в директории загрузок
-    private static File[] getDownloadFiles() {
-        File dir = new File(getDownloadDir());
-        File[] files = dir.listFiles();
-        return files != null ? files : new File[0];
-    }
-
-    //Условие подходящий файл — чтобы не дублировать фильтры
-    private static boolean matchesDownloadedFile(File file, String namePart, long minBytes) {
-        String fileName = file.getName().toLowerCase();
-        String needle = namePart.toLowerCase();
-        return fileName.contains(needle)
-                && !fileName.endsWith(".crdownload")
-                && file.length() >= minBytes;
-    }
-
-    // есть ли уже такой файл
     public static boolean isFileDownloaded(String namePart, long minBytes) {
         return Arrays.stream(getDownloadFiles())
                 .anyMatch(file -> matchesDownloadedFile(file, namePart, minBytes));
     }
 
-    //Ждём появления файла и возвращаем его
     public static File waitForDownload(String namePart, long minBytes) {
         new WebDriverWait(
                 Driver.getInstance(),
@@ -56,5 +38,19 @@ public class DownloadHelper {
                 );
         log.info("Download completed: {} ({} bytes)", result.getName(), result.length());
         return result;
+    }
+
+    private static File[] getDownloadFiles() {
+        File dir = new File(getDownloadDir());
+        File[] files = dir.listFiles();
+        return files != null ? files : new File[0];
+    }
+
+    private static boolean matchesDownloadedFile(File file, String namePart, long minBytes) {
+        String fileName = file.getName().toLowerCase();
+        String needle = namePart.toLowerCase();
+        return fileName.contains(needle)
+                && !fileName.endsWith(".crdownload")
+                && file.length() >= minBytes;
     }
 }
