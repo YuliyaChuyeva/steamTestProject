@@ -69,13 +69,11 @@ public abstract class BaseElement {
         log.info("Scrolled to element: {}", locator);
     }
 
-    public static int scrollToBottomUntilNoNewElements(String xpath) {
-        WebDriver driver = Driver.getInstance();
-        By locator = By.xpath(xpath);
+    public int scrollToBottomUntilNoNewElements() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         int count = 0;
         for (int i = 1; i <= 10; i++) {
-            List<WebElement> elements = findElements(locator);
+            List<WebElement> elements = findElements();
             count = elements.size();
             if (count > 0) {
                 WebElement last = elements.get(count - 1);
@@ -93,14 +91,23 @@ public abstract class BaseElement {
                 break;
             }
         }
-        return driver.findElements(locator).size();
+        return findElements().size();
     }
 
-    protected static List<WebElement> findElements(By locator) {
-        WebDriver driver = Driver.getInstance();
+    protected List<WebElement> findElements() {
         List<WebElement> elements = driver.findElements(locator);
         log.debug("Found {} elements by locator: {}", elements.size(), locator);
         return elements;
+    }
+
+    protected String getXPath() {
+        String raw = locator.toString();
+        if (!raw.startsWith("By.xpath: ")) {
+            throw new IllegalStateException(
+                    "Only XPath locators are supported, got: " + raw
+            );
+        }
+        return raw.substring("By.xpath: ".length()).trim();
     }
 
     protected WebElement getVisibleElement() {

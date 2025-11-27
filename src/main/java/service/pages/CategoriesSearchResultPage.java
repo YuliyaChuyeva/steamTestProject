@@ -1,67 +1,48 @@
 package service.pages;
 
+import core.StringUtil;
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import service.object.GameCard;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Slf4j
 public class CategoriesSearchResultPage {
-    private static final By GAME_CARDS_WITH_TAG = By.xpath("//div[contains(@class,'ImpressionTrackedElement')]" +
-            "[.//a[contains(@href,'/tags/')]]");
-    private static final By GAME_CARD_TAGS = By.xpath(".//a[contains(@href,'/tags/')]");
-    private static final By GAME_CARD_TITLE = By.xpath("//div[contains(@class,'StoreSaleWidgetShortDesc')]");
-
-    public static String normalize(String s) {
-        if (s == null) return "";
-        return s.toLowerCase(Locale.ROOT)
-                .replace('-', ' ')
-                .replace('–', ' ')
-                .replace('\n', ' ')
-                .replaceAll("\\s+", " ")
-                .trim();
-    }
+    private final Label gameCardsContainer = new Label("//div[contains(@class,'ImpressionTrackedElement')]");
+    private final Label cardWithTagsLocator = new Label("//div[contains(@class,'ImpressionTrackedElement')][.//a[contains(@href,'/tags/')]]");
+    private final String GAME_CARD_TAGS = ".//a[contains(@href,'/tags/')]";
+    private final String GAME_CARD_TITLE = ".//div[contains(@class,'StoreSaleWidgetShortDesc')]";
 
     public List<GameCard> getGameCardsOnPage() {
-        Label.scrollToBottomUntilNoNewElements("//div[contains(@class,'ImpressionTrackedElement')]");
-        List<Label> cardRoots = Label.findAll(GAME_CARDS_WITH_TAG);
-        if (cardRoots.isEmpty()) {
-            log.warn("No game cards found on page by locator: {}", GAME_CARDS_WITH_TAG);
+        gameCardsContainer.scrollToBottomUntilNoNewElements();
+        List<Label> cards = cardWithTagsLocator.findAll();
+        if (cards.isEmpty()) {
+            log.warn("No game cards found on page");
             return List.of();
         }
-        log.info("Found {} game cards with tags on page", cardRoots.size());
-        return buildGameCards(cardRoots);
+        log.info("Found {} game cards with tags", cards.size());
+        return cards.stream()
+                .map(this::buildGameCard)
+                .toList();
     }
 
-    private List<GameCard> buildGameCards(List<Label> cardRoots) {
-        List<GameCard> cards = new ArrayList<>(cardRoots.size());
-        for (int i = 0; i < cardRoots.size(); i++) {
-            int position = i + 1;
-            WebElement root = cardRoots.get(i).getElement();
-            String title = extractTitle(root);
-            List<String> tags = extractTags(root);
-            log.debug("Card {}: '{}' -> tags: {}", position, title, tags);
-            cards.add(new GameCard(title, tags));
-        }
-        return cards;
+    private GameCard buildGameCard(Label cardElement) {
+        String title = extractTitle(cardElement);
+        List<String> tags = extractTags(cardElement);
+        return new GameCard(title, tags);
     }
 
-    private String extractTitle(WebElement cardRoot) {
-        List<WebElement> titleElements = cardRoot.findElements(GAME_CARD_TITLE);
-        String title = normalize(titleElements.get(0).getText());
+    private String extractTitle(Label cardElement) {
+        List<Label> titles = cardElement.findAll(GAME_CARD_TITLE);
+        String title = StringUtil.normalizeText(titles.get(0).getText());
         return title.isBlank() ? "UnknownTitle" : title;
     }
 
-    private List<String> extractTags(WebElement cardRoot) {
-        return cardRoot.findElements(GAME_CARD_TAGS)
-                .stream()
-                .map(WebElement::getText)
-                .map(CategoriesSearchResultPage::normalize)
+    private List<String> extractTags(Label cardElement) {
+        return cardElement.findAll(GAME_CARD_TAGS).stream()
+                .map(Label::getText)
+                .map(StringUtil::normalizeText)
                 .filter(s -> !s.isBlank())
                 .toList();
     }

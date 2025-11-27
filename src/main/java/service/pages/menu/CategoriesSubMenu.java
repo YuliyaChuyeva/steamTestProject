@@ -2,41 +2,48 @@ package service.pages.menu;
 
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
 import service.pages.AbstractPage;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class CategoriesSubMenu extends AbstractPage {
-    private static final By CATEGORY_TILES = By.xpath("//a[contains(@href,'/category/')]");
-    private static final By CATEGORY_NAMES = By.xpath("//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)]");
+    private static final String CATEGORY_LINK = "//a[contains(@href,'/category/')]";
+    private static final String CATEGORY_NAME = "//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)]";
     private final Random random = new Random();
 
     public List<String> getAllCategoriesName() {
-        List<Label> nameLabels = Label.findAll(CATEGORY_NAMES);
-        List<String> names = nameLabels.stream()
-                .map(label -> label.getText().trim())
-                .filter(text->!text.isEmpty())
-                .collect(Collectors.toList());
+        List<Label> categoryNamesLabels = new Label(CATEGORY_NAME).findAll();
+        List<String> names = categoryNamesLabels.stream()
+                .map(Label::getText)
+                .filter(t -> !t.isEmpty())
+                .toList();
         log.info("Found {} categories: {}", names.size(), names);
         return names;
     }
 
     public String clickRandomCategory() {
-        List<Label> nameLabels = Label.findAll(CATEGORY_NAMES);
-        List<Label> tiles = Label.findAll(CATEGORY_TILES);
-        if (nameLabels.isEmpty() || tiles.isEmpty()) {
-            throw new IllegalStateException("Categories not found on page!");
+        List<Label> categoryLinks = new Label(CATEGORY_LINK).findAll();
+        List<Label> categoryNameLabels = new Label(CATEGORY_NAME).findAll();
+        int categoriesCount = Math.min(categoryLinks.size(), categoryNameLabels.size());
+        if (categoriesCount == 0) throw new IllegalStateException("No categories on page!");
+
+        List<Integer> indexesWithName = IntStream.range(0, categoriesCount)
+                .filter(i -> !categoryNameLabels.get(i).getText().isBlank())
+                .boxed()
+                .toList();
+        if (indexesWithName.isEmpty()) {
+            throw new IllegalStateException("All category names are empty!");
         }
-        int index = random.nextInt(Math.min(nameLabels.size(), tiles.size()));
-        String categoryName = nameLabels.get(index).getText().trim();
-        Label chosenTile = tiles.get(index);
-        chosenTile.scrollToElement();
-        chosenTile.click();
-        log.info("Clicked on the category: {}", categoryName);
+        int randomIndex = indexesWithName.get(random.nextInt(indexesWithName.size()));
+        Label categoryLink = categoryLinks.get(randomIndex);
+        String categoryName = categoryNameLabels.get(randomIndex).getText().trim();
+        categoryLink.scrollToElement();
+        categoryLink.click();
+        log.info("Clicked category: {}", categoryName);
         return categoryName;
     }
 }
+

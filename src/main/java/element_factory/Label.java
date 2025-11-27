@@ -15,6 +15,10 @@ public class Label extends BaseElement {
         super(locator);
     }
 
+    public Label(String xpath) {
+        super(By.xpath(xpath));
+    }
+
     @Override
     public String getText() {
         return super.getText().trim();
@@ -25,26 +29,24 @@ public class Label extends BaseElement {
         new Actions(Driver.getInstance()).moveToElement(el).perform();
     }
 
-    public static List<Label> findAll(By locator) {
-        String raw = locator.toString();
-        if (!raw.startsWith("By.xpath: ")) {
-            throw new IllegalArgumentException(
-                    "Label.findAll() supports only XPath locators. Provided: " + raw
-            );
-        }
-        List<WebElement> elements = findElements(locator);
+    public List<Label> findAll() {
+        String xpath = getXPath();
+        List<WebElement> elements = findElements();
         if (elements.isEmpty()) {
-            log.warn("No elements found by locator: {}", locator);
+            log.warn("No elements found by xpath: {}", xpath);
             return List.of();
         }
-        String xpath = raw.substring("By.xpath: ".length()).trim();
         return IntStream.rangeClosed(1, elements.size())
-                .mapToObj(i -> new Label(By.xpath("(" + xpath + ")[" + i + "]")))
+                .mapToObj(i -> new Label("(" + xpath + ")[" + i + "]"))
                 .toList();
     }
 
-    public static int scrollToBottomUntilNoNewElements(String xpathOfElements) {
-        return BaseElement.scrollToBottomUntilNoNewElements(xpathOfElements);
+    public List<Label> findAll(String relativeXpath) {
+        String rootXpath = getXPath();
+        if (!relativeXpath.startsWith("."))
+            throw new IllegalArgumentException("Relative xpath must start with '.' : " + relativeXpath);
+        String combined = "(" + rootXpath + ")" + relativeXpath.substring(1);
+        return new Label(combined).findAll();
     }
 }
 

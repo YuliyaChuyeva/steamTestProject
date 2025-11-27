@@ -1,3 +1,4 @@
+import core.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
@@ -15,7 +16,7 @@ public class CategoriesRandomTest extends BaseTest {
                 .getGameMenu()
                 .openCategoriesMenu()
                 .clickRandomCategory();
-        String expectedTag = CategoriesSearchResultPage.normalize(chosenCategory);
+        String expectedTag = StringUtil.normalizeText(chosenCategory);
         List<GameCard> cards = new CategoriesSearchResultPage().getGameCardsOnPage();
         SoftAssertions softly = new SoftAssertions();
         cards.forEach(card ->
