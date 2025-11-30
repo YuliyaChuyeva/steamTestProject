@@ -29,6 +29,10 @@ public class PropertiesReader {
         return instance;
     }
 
+    public String getLanguage() {
+        return properties.getProperty("language", "en").trim().toLowerCase();
+    }
+
     public String getBrowser() {
         return properties.getProperty("browser");
     }

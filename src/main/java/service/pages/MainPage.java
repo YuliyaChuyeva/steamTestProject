@@ -8,4 +8,7 @@ public class MainPage extends AbstractPage {
         GameMenu gameMenu = getGameMenu();
         return gameMenu.searchGame(query);
     }
+    public void changeLanguage() {
+        getHeaderMenu().changeLanguage();
+    }
 }

@@ -27,6 +27,9 @@ public abstract class BaseElement {
         log.debug("Found element by locator: {}", locator);
         return driver.findElement(locator);
     }
+    public String getAttribute(String name){
+        return getVisibleElement().getAttribute(name);
+    }
 
     public String getText() {
         String text = getElement().getText();
