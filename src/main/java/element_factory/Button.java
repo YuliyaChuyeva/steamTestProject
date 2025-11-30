@@ -1,4 +1,4 @@
-package elementFactory;
+package element_factory;
 
 import org.openqa.selenium.By;
 

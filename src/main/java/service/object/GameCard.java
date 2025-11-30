@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode
 @FieldNameConstants
-public class Game {
-    private String title;
-    private String price;
-    private String releaseDate;
+public class GameCard {
+    private final String title;
+    private final List<String> tags;
+
 }

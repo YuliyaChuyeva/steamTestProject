@@ -1,9 +1,10 @@
 package core;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 @Slf4j
@@ -21,11 +22,24 @@ public class Driver {
     }
 
     public static void navigateMainPage() {
-        Driver.getInstance().manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebDriver webDriver = Driver.getInstance();
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String url = PropertiesReader.getInstance().getUrl();
-        driver.get(url);
-        log.info("Go to the main page: {}", url);
+        webDriver.get(url);
+        applyEnglishCookie(webDriver);
+    }
+
+    public static void applyEnglishCookie(WebDriver driver) {
+        driver.manage().deleteAllCookies();
+        Cookie lang = new Cookie.Builder("Steam_Language", "english")
+                .domain("store.steampowered.com")
+                .path("/")
+                .isSecure(true)
+                .build();
+        driver.manage().addCookie(lang);
+        driver.navigate().refresh();
+        log.info("Applied language=english cookie and refreshed page");
     }
 
     public static void quitDriver() {

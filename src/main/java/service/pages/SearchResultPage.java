@@ -1,6 +1,6 @@
 package service.pages;
 
-import elementFactory.*;
+import element_factory.*;
 import org.openqa.selenium.By;
 import service.object.Game;
 
