@@ -27,7 +27,7 @@ public class Driver {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String url = PropertiesReader.getInstance().getUrl();
         webDriver.get(url);
-        applyEnglishCookie(webDriver);
+        //applyEnglishCookie(webDriver);
     }
 
     public static void applyEnglishCookie(WebDriver driver) {
