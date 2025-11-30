@@ -11,8 +11,8 @@ import java.util.List;
 public class CategoriesSearchResultPage {
     private final Label gameCardsContainer = new Label("//div[contains(@class,'ImpressionTrackedElement')]");
     private final Label cardWithTagsLocator = new Label("//div[contains(@class,'ImpressionTrackedElement')][.//a[contains(@href,'/tags/')]]");
-    private final String GAME_CARD_TAGS = ".//a[contains(@href,'/tags/')]";
-    private final String GAME_CARD_TITLE = ".//div[contains(@class,'StoreSaleWidgetShortDesc')]";
+    private final Label tagsInsideCard = new Label(".//a[contains(@href,'/tags/')]");
+    private final Label titleInsideCard = new Label(".//div[contains(@class,'StoreSaleWidgetShortDesc')]");
 
     public List<GameCard> getGameCardsOnPage() {
         gameCardsContainer.scrollToBottomUntilNoNewElements();
@@ -34,13 +34,13 @@ public class CategoriesSearchResultPage {
     }
 
     private String extractTitle(Label cardElement) {
-        List<Label> titles = cardElement.findAll(GAME_CARD_TITLE);
+        List<Label> titles = cardElement.findAll(titleInsideCard);
         String title = StringUtil.normalizeText(titles.get(0).getText());
         return title.isBlank() ? "UnknownTitle" : title;
     }
 
     private List<String> extractTags(Label cardElement) {
-        return cardElement.findAll(GAME_CARD_TAGS).stream()
+        return cardElement.findAll(tagsInsideCard).stream()
                 .map(Label::getText)
                 .map(StringUtil::normalizeText)
                 .filter(s -> !s.isBlank())

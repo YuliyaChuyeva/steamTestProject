@@ -6,7 +6,7 @@ import java.util.Locale;
 
 @UtilityClass
 public class StringUtil {
-    public static String normalizeText(String s) {
+    public String normalizeText(String s) {
         if (s == null) return "";
         return s.toLowerCase(Locale.ROOT)
                 .replace('-', ' ')

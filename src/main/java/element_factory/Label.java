@@ -41,11 +41,14 @@ public class Label extends BaseElement {
                 .toList();
     }
 
-    public List<Label> findAll(String relativeXpath) {
-        String rootXpath = getXPath();
-        if (!relativeXpath.startsWith("."))
-            throw new IllegalArgumentException("Relative xpath must start with '.' : " + relativeXpath);
-        String combined = "(" + rootXpath + ")" + relativeXpath.substring(1);
+    //Находит дочерние элементы по ЛОКАТОРУ Label
+    public List<Label> findAll(Label relativeLocator) {
+        String rootXpath = this.getXPath();
+        String childXpath = relativeLocator.getXPath();
+        String relative = childXpath.startsWith(".")
+                ? childXpath.substring(1)
+                : "//" + childXpath.substring(2);
+        String combined = "(" + rootXpath + ")" + relative;
         return new Label(combined).findAll();
     }
 }
