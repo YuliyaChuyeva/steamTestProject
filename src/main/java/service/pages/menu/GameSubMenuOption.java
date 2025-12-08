@@ -1,16 +1,20 @@
 package service.pages.menu;
 
+import core.Lang;
 import lombok.Getter;
 
 @Getter
 public enum GameSubMenuOption {
-    TOP_SELLERS("Top Sellers"),
-    NEW_RELEASES("New Releases"),
-    YOUR_WISHLIST("Your Wishlist");
+    TOP_SELLERS("gameSubMenu.top_sellers"),
+    DISCOUNT_EVENTS("gameSubMenu.discount_events");
 
-    private final String displayName;
+    private final String menuKey;
 
-    GameSubMenuOption(String displayName) {
-        this.displayName = displayName;
+    GameSubMenuOption(String menuKey) {
+        this.menuKey = menuKey;
+    }
+
+    public String getDisplayName() {
+        return Lang.get(menuKey);
     }
 }

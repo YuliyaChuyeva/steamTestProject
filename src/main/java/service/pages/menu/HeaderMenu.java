@@ -35,7 +35,7 @@ public class HeaderMenu {
     }
 
     public void hover(HeaderMenuOption main) {
-        new Label(getMenuByText(main.getDisplayName())).hover();
+        new Label(getMenuByText(main.getMenuId())).hover();
     }
 
     public void openInstallSteam() {

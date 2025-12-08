@@ -1,5 +1,6 @@
 package service.pages;
 
+import core.Lang;
 import element_factory.Button;
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +9,12 @@ import service.object.Game;
 
 @Slf4j
 public class GamePage extends AbstractPage {
-    private Label priceElement = new Label(By.xpath("//div[@class='game_purchase_price price']"));
+    private Label priceElement = new Label(By.className("discount_final_price"));
     private Label releaseElement = new Label(By.cssSelector(".release_date .date"));
     private Label titleElement = new Label(By.id("appHubAppName"));
-    private Button addtoCartBtn = new Button(By.xpath("//a[contains(@id,'btn_add_to_cart_')]//span[text()='Add to Cart']"));
-    private Label addedToCartConfirmation = new Label(By.xpath("//div[@role='dialog']//div[contains(text(),'Added to your cart')]"));
+    private Button addtoCartBtn = new Button(By.xpath("//a[contains(@id,'btn_add_to_cart_')]"));
     private Button viewMyCart = new Button(By.xpath("//div[@role='dialog']//button[contains(@class,'DialogButton') and contains(@class,'Primary')]"));
+    private Label addedToCartConfirmation = new Label(By.xpath(String.format("//div[@role='dialog']//div[contains(text(),'%s')]", Lang.get("cart.added"))));
 
     public Game getGameDetails() {
         String title = titleElement.getText();
@@ -35,7 +36,7 @@ public class GamePage extends AbstractPage {
     }
 
     public boolean isAddedToCartMessageShown() {
-        return addedToCartConfirmation.getText().contains("Added to your cart");
+        return addedToCartConfirmation.getText().contains(Lang.get("cart.added"));
     }
 
     public GamePage closeAddToCartModalIfVisible() {

@@ -3,7 +3,7 @@ import element_factory.Label;
 import org.testng.annotations.Test;
 import service.pages.MainPage;
 
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChangeLanguageTest extends BaseTest {
     private static final Label htmlTag = new Label("//html");
@@ -13,6 +13,8 @@ public class ChangeLanguageTest extends BaseTest {
         new MainPage().changeLanguage();
         String actualLang = htmlTag.getAttribute("lang").trim().toLowerCase();
         String expectedLang = PropertiesReader.getInstance().getLanguage();
-        assertEquals(actualLang, expectedLang, "Language  not change correctly!");
+        assertThat(actualLang)
+                .as("Language  not change correctly!")
+                .isEqualTo(expectedLang);
     }
 }

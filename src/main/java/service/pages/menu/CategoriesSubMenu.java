@@ -45,5 +45,6 @@ public class CategoriesSubMenu extends AbstractPage {
         log.info("Clicked category: {}", categoryName);
         return categoryName;
     }
+
 }
 

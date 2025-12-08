@@ -1,19 +1,24 @@
 package service.pages.menu;
 
+import core.Lang;
 import lombok.Getter;
 
 @Getter
 public enum StoreSubMenuOption {
-    HOME("Home"),
-    DISCOVERY_QUEUE("Discovery queue"),
-    WISHLIST("Wishlist"),
-    POINTS_SHOP("Points shop"),
-    NEWS("News"),
-    STATS("Stats");
+    HOME("store.submenu.home"),
+    DISCOVERY_QUEUE("store.submenu.discovery_queue"),
+    WISHLIST("store.submenu.wishlist"),
+    POINTS_SHOP("store.submenu.points_shop"),
+    NEWS("store.submenu.news"),
+    STATS("store.submenu.stats");
 
-    private final String displayName;
+    private final String menuKey;
 
-    StoreSubMenuOption(String displayName) {
-        this.displayName = displayName;
+    StoreSubMenuOption(String menuKey) {
+        this.menuKey = menuKey;
+    }
+
+    public String getDisplayName() {
+        return Lang.get(menuKey);
     }
 }
