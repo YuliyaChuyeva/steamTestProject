@@ -1,7 +1,11 @@
 package core;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+@Slf4j
 public final class Lang {
     private static ResourceBundle bundle;
 
@@ -19,8 +23,9 @@ public final class Lang {
     public static String get(String key) {
         try {
             return getBundle().getString(key);
-        } catch (Exception e) {
-            return "??" + key + "??";
+        } catch (MissingResourceException e) {
+            log.error("Failed to resolve translation key '{}': key not found in bundle", key, e);
+            throw e;
         }
     }
 }
