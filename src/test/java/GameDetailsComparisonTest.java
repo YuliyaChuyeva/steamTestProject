@@ -50,6 +50,7 @@ public class GameDetailsComparisonTest extends BaseTest {
                 .navigate(HeaderMenuOption.STORE, StoreSubMenuOption.WISHLIST);
         assertThat(Driver.getInstance().getCurrentUrl()).contains("/wishlist");
     }
+
     @Test
     public void shouldNavigateToAbout() {
         new MainPage()
@@ -57,11 +58,12 @@ public class GameDetailsComparisonTest extends BaseTest {
                 .navigate(HeaderMenuOption.ABOUT);
         assertThat(Driver.getInstance().getCurrentUrl()).contains("/about");
     }
+
     @Test
     public void shouldNavigateToTopSellers() {
         new MainPage()
                 .getGameMenu()
-                .navigate(GameMenuOption.BROWSE,GameSubMenuOption.TOP_SELLERS);
+                .navigate(GameMenuOption.BROWSE, GameSubMenuOption.TOP_SELLERS);
         assertThat(Driver.getInstance().getCurrentUrl()).contains("/topselling");
     }
 }

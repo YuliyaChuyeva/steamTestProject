@@ -1,18 +1,24 @@
 package service.pages.menu;
 
 
+import core.Lang;
 import lombok.Getter;
 
 @Getter
 public enum GameMenuOption {
-    BROWSE("Browse"),
-    RECOMMENDATIONS("Recommendations"),
-    CATEGORIES("Categories"),
-    WAYS_TO_PLAY("Ways to Play"),
-    SPECIAL_SECTIONS("Special Sections");
-    private final String displayName;
+    BROWSE("gameMenu.browse"),
+    RECOMMENDATIONS("gameMenu.recommendations"),
+    CATEGORIES("gameMenu.categories"),
+    WAYS_TO_PLAY("gameMenu.ways_to_play"),
+    SPECIAL_SECTIONS("gameMenu.special_sections");
 
-    GameMenuOption(String displayName) {
-        this.displayName = displayName;
+    private final String menuKey;
+
+    GameMenuOption(String menuKey) {
+        this.menuKey = menuKey;
+    }
+
+    public String getDisplayName() {
+        return Lang.get(menuKey);
     }
 }
