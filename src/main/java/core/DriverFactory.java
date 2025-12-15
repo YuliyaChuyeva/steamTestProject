@@ -16,14 +16,12 @@ public class DriverFactory {
     public static WebDriver initDriver() {
         String browserName = PropertiesReader.getInstance().getBrowser();
         BrowserType browserType;
-        if (browserName == null) {
+        try {
+            browserType = BrowserType.valueOf(
+                    browserName == null ? "CHROME" : browserName.toUpperCase().trim()
+            );
+        } catch (IllegalArgumentException e) {
             browserType = BrowserType.CHROME;
-        } else {
-            try {
-                browserType = BrowserType.valueOf(browserName.toUpperCase().trim());
-            } catch (IllegalArgumentException e) {
-                browserType = BrowserType.CHROME;
-            }
         }
         WebDriver driver;
         switch (browserType) {
