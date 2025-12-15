@@ -9,20 +9,23 @@ import java.time.Duration;
 
 @Slf4j
 public class Driver {
-    private static WebDriver driver;
+    private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
 
     private Driver() {
     }
 
     public static WebDriver getInstance() {
+        WebDriver driver = DRIVER.get();
         if (driver == null) {
             driver = DriverFactory.initDriver();
+            DRIVER.set(driver);
+            log.info("Driver created for thread: {}", Thread.currentThread().getId());
         }
         return driver;
     }
 
     public static void navigateMainPage() {
-        WebDriver webDriver = Driver.getInstance();
+        WebDriver webDriver = getInstance();
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String url = PropertiesReader.getInstance().getUrl();
@@ -43,9 +46,14 @@ public class Driver {
     }
 
     public static void quitDriver() {
+        WebDriver driver = DRIVER.get();
         if (driver != null) {
-            driver.quit();
-            driver = null;
+            try {
+                driver.quit();
+                log.info("Driver quit for thread: {}", Thread.currentThread().getId());
+            } finally {
+                DRIVER.remove();
+            }
         }
     }
 }
