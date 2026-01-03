@@ -14,9 +14,9 @@ public abstract class BaseTest {
         DownloadHelper.cleanDownloadDir();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void close() {
-        Driver.getInstance().close();
+        Driver.quitDriver();
     }
 }
 

@@ -10,8 +10,8 @@ import java.util.stream.IntStream;
 
 @Slf4j
 public class CategoriesSubMenu extends AbstractPage {
-    private static final String CATEGORY_LINK = "//a[contains(@href,'/category/')]";
-    private static final String CATEGORY_NAME = "//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)]";
+    private final String CATEGORY_LINK = "//a[contains(@href,'/category/')]";
+    private final String CATEGORY_NAME = "//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)]";
     private final Random random = new Random();
 
     public List<String> getAllCategoriesName() {

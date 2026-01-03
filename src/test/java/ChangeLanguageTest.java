@@ -6,7 +6,7 @@ import service.pages.MainPage;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChangeLanguageTest extends BaseTest {
-    private static final Label htmlTag = new Label("//html");
+    private final Label htmlTag = new Label("//html");
 
     @Test
     public void testLanguage() {

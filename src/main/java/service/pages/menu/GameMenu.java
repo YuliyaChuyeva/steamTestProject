@@ -7,12 +7,12 @@ import service.pages.SearchResultPage;
 
 public class GameMenu {
 
-    private static final String GAME_MENU_XPATH = "//div[@role='navigation']//div[contains(text(),'%s')]";
-    private static final String GAME_SUBMENU_XPATH = "//span[contains(text(),'%s')]";
-    private static final By SEARCH_INPUT = By.cssSelector("#store_nav_search_term, input[name='term']");
-    private final Label cartLink = new Label(By.cssSelector("a[href*='/cart']"));
-    private static final By CATEGORIES_MENU = By.xpath("//div[@role='navigation']//div[contains(text(),'Categories')]");
-    private static final Label FIRST_CATEGORY_NAME = new Label(By.xpath("//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)])[1]"));
+    private final String GAME_MENU_XPATH = "//div[@role='navigation']//div[contains(text(),'%s')]";
+    private final String GAME_SUBMENU_XPATH = "//span[contains(text(),'%s')]";
+    private final By SEARCH_INPUT = By.cssSelector("#store_nav_search_term, input[name='term']");
+    private Label cartLink = new Label(By.cssSelector("a[href*='/cart']"));
+    private final By CATEGORIES_MENU = By.xpath("//div[@role='navigation']//div[contains(text(),'Categories')]");
+    private final Label FIRST_CATEGORY_NAME = new Label(By.xpath("//a[contains(@href,'/category/')]/descendant::div[normalize-space() and not(descendant::*)][1]"));
 
     private By getMenuItem(GameMenuOption menuOption) {
         return By.xpath(String.format(GAME_MENU_XPATH, menuOption.getDisplayName()));

@@ -9,14 +9,14 @@ import org.openqa.selenium.By;
 
 @Slf4j
 public class HeaderMenu {
-    private static final String MAIN_MENU_XPATH = "//*[@id='global_header']//a[@data-tooltip-content='.submenu_%s']";
-    private static final String MAIN_MENU_XPATH_ABOUT_SUPPORT =
+    private final String MAIN_MENU_XPATH = "//*[@id='global_header']//a[@data-tooltip-content='.submenu_%s']";
+    private final String MAIN_MENU_XPATH_ABOUT_SUPPORT =
             "//*[@id='global_header']//a[contains(@class,'menuitem') and contains(text(),'%1$s')]";
-    private static final String SUB_MENU_ITEM_XPATH = "//div[contains(@class,'supernav_content')]//a[normalize-space()='%s']";
-    private static final Button installSteam = new Button(By.xpath("//div[@class='header_installsteam_btn_content']"));
-    private static final Label htmlTag = new Label("//html");
-    private static final Label languagePullDown = new Label(By.id("language_pulldown"));
-    private static final String LANGUAGE_OPTION_XPATH = "//a[contains(@href, 'l=%s')]";
+    private final String SUB_MENU_ITEM_XPATH = "//div[contains(@class,'supernav_content')]//a[normalize-space()='%s']";
+    private final Button installSteam = new Button(By.xpath("//div[@class='header_installsteam_btn_content']"));
+    private final Label htmlTag = new Label("//html");
+    private final Label languagePullDown = new Label(By.id("language_pulldown"));
+    private final String LANGUAGE_OPTION_XPATH = "//a[contains(@href, 'l=%s')]";
 
     public void changeLanguage() {
         String actualLang = htmlTag.getAttribute("lang").trim().toLowerCase();

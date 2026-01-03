@@ -34,7 +34,7 @@ public class PropertiesReader {
     }
 
     public String getBrowser() {
-        return properties.getProperty("browser");
+        return properties.getProperty("browser").trim();
     }
 
     public String getUrl() {

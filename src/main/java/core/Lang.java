@@ -14,8 +14,11 @@ public final class Lang {
 
     private static ResourceBundle getBundle() {
         if (bundle == null) {
-            String lang = PropertiesReader.getInstance().getLanguage();
-            bundle = ResourceBundle.getBundle("languages." + lang);
+            String lang = System.getProperty("language");
+            if (lang == null || lang.isBlank()) {
+                lang = PropertiesReader.getInstance().getLanguage();
+            }
+            bundle = ResourceBundle.getBundle("languages." + lang.trim().toLowerCase());
         }
         return bundle;
     }
