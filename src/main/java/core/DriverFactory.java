@@ -14,7 +14,7 @@ import java.util.Map;
 @Slf4j
 public class DriverFactory {
     public static WebDriver initDriver() {
-        String browserName = PropertiesReader.getInstance().getBrowser();
+        String browserName = getBrowserFromVariable();
         BrowserType browserType;
         try {
             browserType = BrowserType.valueOf(
@@ -86,5 +86,13 @@ public class DriverFactory {
         params.put("downloadPath", downloadDir);
         chromeDriver.executeCdpCommand("Page.setDownloadBehavior", params);
         log.info("Allowed downloads via CDP to: {}", downloadDir);
+    }
+
+    private static String getBrowserFromVariable() {
+        String systemBrowser = System.getProperty("browser");
+        if (systemBrowser == null && systemBrowser.isBlank()) {
+            return PropertiesReader.getInstance().getBrowser();
+        }
+        return systemBrowser.trim().toLowerCase();
     }
 }

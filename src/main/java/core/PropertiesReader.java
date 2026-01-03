@@ -34,10 +34,6 @@ public class PropertiesReader {
     }
 
     public String getBrowser() {
-        String systemBrowser = System.getProperty("browser");
-        if (systemBrowser != null && !systemBrowser.isBlank()) {
-            return systemBrowser.trim();
-        }
         return properties.getProperty("browser").trim();
     }
 
