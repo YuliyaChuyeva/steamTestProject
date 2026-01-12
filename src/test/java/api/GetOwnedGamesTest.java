@@ -1,28 +1,14 @@
 package api;
 
-import core.PropertiesReader;
 import org.testng.annotations.Test;
+import service.api_object.OwnedGamesResponse;
 
-import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
-public class GetOwnedGamesTest {
+public class GetOwnedGamesTest extends BaseApiTest {
     @Test
     public void compareNumberOfGames() {
-        OwnedGamesResponse dto = given()
-                .baseUri(PropertiesReader.getInstance().getUri())
-                .queryParam("key", PropertiesReader.getInstance().getSteamApiKey())
-                .queryParam("steamid", PropertiesReader.getInstance().getSteamId())
-                .queryParam("include_appinfo", 1)
-                .log().all()
-                .when()
-                .get("/IPlayerService/GetOwnedGames/v0001/")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .as(OwnedGamesResponse.class);
-        assertEquals(1, dto.getResponse().getGameCount());
+        OwnedGamesResponse ownedGames = gameService.getAllGames();
+        assertEquals(ownedGames.getResponse().getGameCount(), 1);
     }
 }

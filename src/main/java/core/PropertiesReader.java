@@ -3,8 +3,6 @@ package core;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -45,30 +43,6 @@ public class PropertiesReader {
 
     public String getUri() {
         return properties.getProperty("uri");
-    }
-
-    public String getSteamApiKey() {
-        return readFileName("steam_api_key.txt");
-    }
-
-    public String getSteamId() {
-        return readFileName("steam_id64.txt");
-    }
-
-    private String readFileName(String fileName) {
-        try {
-            String value = Files.readString(Path.of(fileName)).trim();
-            if (value.isEmpty()) {
-                throw new RuntimeException(fileName + " is empty");
-            }
-            return value;
-        } catch (IOException e) {
-            throw new RuntimeException(
-                    "Failed to read from file: " + fileName +
-                            ". File must exist and must NOT be committed to git.",
-                    e
-            );
-        }
     }
 
     public String getDownloadDirPath() {
