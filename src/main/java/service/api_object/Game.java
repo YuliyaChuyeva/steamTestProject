@@ -2,13 +2,13 @@ package service.api_object;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.ArrayList;
 
-@Getter
-@Setter
+@Data
+@FieldNameConstants
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Game {
     @JsonProperty("appid")

@@ -9,12 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameService {
-    private final RestClient client;
+    private final RestClient client= new RestClient();
     private static final String GET_OWNED_GAMES_PATH = "/IPlayerService/GetOwnedGames/v0001/";
 
-    public GameService(RestClient client) {
-        this.client = client;
-    }
 
     public OwnedGamesResponse getAllGames() {
         Map<String, Object> params = new HashMap<>();

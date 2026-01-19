@@ -1,10 +1,8 @@
 package service.api_object;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class OwnedGamesResponse {
     private Response response;
 }
