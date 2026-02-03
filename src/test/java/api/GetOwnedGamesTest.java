@@ -1,6 +1,5 @@
 package api;
 
-import api_expected_result.ExpectedGames;
 import org.testng.annotations.Test;
 import service.api_object.Game;
 import service.api_object.OwnedGamesResponse;
@@ -8,12 +7,18 @@ import service.api_object.OwnedGamesResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetOwnedGamesTest extends BaseApiTest {
+    private static final String NAME_OF_GAME = "One Finger Death Punch";
+    private static final Integer APP_ID = 264200;
+
     @Test
     public void compareNumberOfGames() {
+        Game expectedGame = Game.builder()
+                .name(NAME_OF_GAME)
+                .appId(APP_ID)
+                .build();
         OwnedGamesResponse ownedGames = gameService.getAllGames();
-        Game expectedGame = ExpectedGames.oneFingerDeathPunch();
         assertThat(ownedGames.getResponse().getGames())
-                .as("Owned games list must contain expected game")
+                .as("Owned games list should contain %s (appid=%s)", NAME_OF_GAME, APP_ID)
                 .filteredOn(game -> expectedGame.getAppId().equals(game.getAppId()))
                 .first()
                 .usingRecursiveComparison()

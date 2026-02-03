@@ -1,25 +1,26 @@
 package api;
 
-import api_expected_result.ExpectedNews;
 import org.testng.annotations.Test;
 import service.api_object.AppNews;
 import service.api_object.GetNewsForAppResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetNewsForAppTest extends BaseApiTest{
+public class GetNewsForAppTest extends BaseApiTest {
+    private static final int APP_ID = 264200;
+    private static final int REQUEST_COUNT = 3;
+
     @Test
     public void shouldReturnNewsForGame() {
-        AppNews expected = ExpectedNews.oneFingerDeathPunch();
-        int count = ExpectedNews.count();
-        int maxLength = ExpectedNews.maxLength();
-        GetNewsForAppResponse response =
-                newsService.getNewsForApp(expected.getAppId(), count, maxLength);
-        assertThat(response.getAppNews().getAppId())
-                .isEqualTo(expected.getAppId());
-        assertThat(response.getAppNews().getNewsItems())
-                .isNotEmpty();
-        assertThat(response.getAppNews().getNewsItems().size())
-                .isLessThanOrEqualTo(count);
+        GetNewsForAppResponse response = newsService.getNewsForApp(APP_ID, REQUEST_COUNT);
+        AppNews actual = response.getAppNews();
+        assertThat(actual.getAppId())
+                .as("App id in response should be %s", APP_ID)
+                .isEqualTo(APP_ID);
+        assertThat(actual.getNewsItems())
+                .as("News items list should not be empty and should contain no more than %s items",
+                        REQUEST_COUNT)
+                .isNotEmpty()
+                .hasSizeLessThanOrEqualTo(REQUEST_COUNT);
     }
 }
