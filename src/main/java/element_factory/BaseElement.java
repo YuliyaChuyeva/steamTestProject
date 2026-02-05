@@ -1,7 +1,7 @@
 package element_factory;
 
-import core.Driver;
-import core.Waiter;
+import core.driver.Driver;
+import core.driver.Waiter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -27,7 +27,8 @@ public abstract class BaseElement {
         log.debug("Found element by locator: {}", locator);
         return driver.findElement(locator);
     }
-    public String getAttribute(String name){
+
+    public String getAttribute(String name) {
         return getVisibleElement().getAttribute(name);
     }
 

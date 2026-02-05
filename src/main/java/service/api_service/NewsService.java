@@ -1,7 +1,7 @@
 package service.api_service;
 
 import core.RestClient;
-import service.api_object.GetNewsForAppResponse;
+import service.api_object.i_steam_news.GetNewsForAppResponse;
 
 import java.util.HashMap;
 import java.util.Map;

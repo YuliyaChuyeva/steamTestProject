@@ -1,8 +1,8 @@
 package api;
 
 import org.testng.annotations.Test;
-import service.api_object.Game;
-import service.api_object.OwnedGamesResponse;
+import service.api_object.i_player_service.Game;
+import service.api_object.i_player_service.OwnedGamesResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package service.api_object;
+package service.api_object.i_steam_user_stats;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,6 @@
 package service.pages;
 
-import core.Driver;
+import core.driver.Driver;
 import service.pages.menu.GameMenu;
 import service.pages.menu.HeaderMenu;
 

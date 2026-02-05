@@ -1,9 +1,9 @@
 package service.pages;
 
-import core.StringUtil;
+import core.util.StringUtil;
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
-import service.object.GameCard;
+import service.ui_object.GameCard;
 
 import java.util.List;
 

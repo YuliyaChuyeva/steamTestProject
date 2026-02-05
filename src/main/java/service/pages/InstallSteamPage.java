@@ -1,6 +1,6 @@
 package service.pages;
 
-import core.DownloadHelper;
+import core.util.DownloadHelper;
 import element_factory.Button;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;

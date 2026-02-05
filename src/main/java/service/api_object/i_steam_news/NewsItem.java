@@ -1,4 +1,4 @@
-package service.api_object;
+package service.api_object.i_steam_news;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +15,7 @@ public class NewsItem {
     private String title;
     private String url;
     @JsonProperty("is_external_url")
-    private Boolean is_external_url;
+    private Boolean isExternalUrl;
     private String author;
     private String contents;
     @JsonProperty("feedlabel")

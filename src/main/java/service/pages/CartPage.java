@@ -1,11 +1,11 @@
 package service.pages;
 
-import core.Lang;
+import core.util.Lang;
 import element_factory.Button;
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import service.object.Game;
+import service.ui_object.Game;
 
 @Slf4j
 public class CartPage extends AbstractPage {

@@ -1,6 +1,6 @@
 package element_factory;
 
-import core.Driver;
+import core.driver.Driver;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

@@ -1,12 +1,13 @@
 package core;
 
+import core.util.PropertiesReader;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 
 import java.util.Map;
 
 public class RestClient {
-    private final String baseUri=PropertiesReader.getInstance().getUri();
+    private final String baseUri = PropertiesReader.getInstance().getUri();
 
     private RequestSpecification baseRequest() {
         return RestAssured.given()

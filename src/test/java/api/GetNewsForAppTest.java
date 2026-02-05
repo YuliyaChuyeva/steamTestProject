@@ -1,8 +1,8 @@
 package api;
 
 import org.testng.annotations.Test;
-import service.api_object.AppNews;
-import service.api_object.GetNewsForAppResponse;
+import service.api_object.i_steam_news.AppNews;
+import service.api_object.i_steam_news.GetNewsForAppResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

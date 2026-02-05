@@ -1,4 +1,4 @@
-package service.api_object;
+package service.api_object.i_player_service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

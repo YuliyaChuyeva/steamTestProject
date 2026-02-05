@@ -1,8 +1,8 @@
 package api;
 
 import org.testng.annotations.Test;
-import service.api_object.Achievement;
-import service.api_object.PlayerAchievementsResponse;
+import service.api_object.i_steam_user_stats.Achievement;
+import service.api_object.i_steam_user_stats.PlayerAchievementsResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,14 @@ public class GetPlayerAchievementsTest extends BaseApiTest {
                 .stream()
                 .filter(a -> expected.getApiName().equals(a.getApiName()))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() ->
+                        new AssertionError(
+                                String.format(
+                                        "Achievement with apiName=%s was not found in GetPlayerAchievements response",
+                                        ACHIEVEMENT_API_NAME
+                                )
+                        )
+                );
         assertThat(actual)
                 .as("Achievement should match expected values for apiName=%s", expected.getApiName())
                 .usingRecursiveComparison()

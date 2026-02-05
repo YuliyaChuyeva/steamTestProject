@@ -1,4 +1,4 @@
-package service.api_object;
+package service.api_object.i_steam_news;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

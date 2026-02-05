@@ -1,8 +1,8 @@
 package service.api_service;
 
 import core.RestClient;
-import core.TextFilesUtil;
-import service.api_object.PlayerAchievementsResponse;
+import core.util.TextFilesUtil;
+import service.api_object.i_steam_user_stats.PlayerAchievementsResponse;
 
 import java.util.HashMap;
 import java.util.Map;
