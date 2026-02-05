@@ -54,6 +54,12 @@ public class PropertiesReader {
         return dir.getAbsolutePath();
     }
 
+    public String getScreenshotsDir() {
+        String dir = properties.getProperty("screenshots.dir", "target/screenshots");
+        ensureDirExists(dir);
+        return dir;
+    }
+
     public Duration getDownloadTimeout() {
         String value = properties.getProperty("download.timeout.seconds", "300");
         long seconds = Long.parseLong(value.trim());
