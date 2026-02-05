@@ -1,18 +1,16 @@
-package service.object;
+package service.ui_object;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode
 @FieldNameConstants
-public class GameCard {
-    private final String title;
-    private final List<String> tags;
-
+public class Game {
+    private String title;
+    private String price;
+    private String releaseDate;
 }

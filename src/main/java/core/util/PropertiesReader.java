@@ -1,4 +1,4 @@
-package core;
+package core.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +39,10 @@ public class PropertiesReader {
 
     public String getUrl() {
         return properties.getProperty("url");
+    }
+
+    public String getUri() {
+        return properties.getProperty("uri");
     }
 
     public String getDownloadDirPath() {

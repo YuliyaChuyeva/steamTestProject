@@ -1,5 +1,6 @@
-package core;
+package core.driver;
 
+import core.util.PropertiesReader;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;

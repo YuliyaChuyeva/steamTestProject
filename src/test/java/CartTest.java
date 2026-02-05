@@ -1,7 +1,7 @@
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import service.object.Game;
+import service.ui_object.Game;
 import service.pages.CartPage;
 import service.pages.GamePage;
 import service.pages.MainPage;

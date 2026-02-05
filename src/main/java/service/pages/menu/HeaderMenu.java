@@ -1,7 +1,7 @@
 package service.pages.menu;
 
-import core.PropertiesReader;
-import core.Waiter;
+import core.util.PropertiesReader;
+import core.driver.Waiter;
 import element_factory.Button;
 import element_factory.Label;
 import lombok.extern.slf4j.Slf4j;

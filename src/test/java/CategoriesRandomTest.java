@@ -1,8 +1,8 @@
-import core.StringUtil;
+import core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
-import service.object.GameCard;
+import service.ui_object.GameCard;
 import service.pages.CategoriesSearchResultPage;
 import service.pages.MainPage;
 

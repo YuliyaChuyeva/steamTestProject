@@ -2,7 +2,7 @@ package service.pages;
 
 import element_factory.*;
 import org.openqa.selenium.By;
-import service.object.Game;
+import service.ui_object.Game;
 
 public class SearchResultPage extends AbstractPage {
     private Link firstGameLink = new Link(By.cssSelector(".search_result_row:first-child"));

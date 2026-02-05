@@ -1,5 +1,5 @@
-import core.DownloadHelper;
-import core.Driver;
+import core.driver.Driver;
+import core.util.DownloadHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

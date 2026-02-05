@@ -1,4 +1,4 @@
-import core.PropertiesReader;
+import core.util.PropertiesReader;
 import element_factory.Label;
 import org.testng.annotations.Test;
 import service.pages.MainPage;

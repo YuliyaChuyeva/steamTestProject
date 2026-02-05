@@ -1,5 +1,6 @@
-package core;
+package core.driver;
 
+import core.util.PropertiesReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -90,7 +91,7 @@ public class DriverFactory {
 
     private static String getBrowserFromVariable() {
         String systemBrowser = System.getProperty("browser");
-        if (systemBrowser == null && systemBrowser.isBlank()) {
+        if (systemBrowser == null || systemBrowser.isBlank()) {
             return PropertiesReader.getInstance().getBrowser();
         }
         return systemBrowser.trim().toLowerCase();

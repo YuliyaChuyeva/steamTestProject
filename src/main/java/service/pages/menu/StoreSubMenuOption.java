@@ -1,6 +1,6 @@
 package service.pages.menu;
 
-import core.Lang;
+import core.util.Lang;
 import lombok.Getter;
 
 @Getter
