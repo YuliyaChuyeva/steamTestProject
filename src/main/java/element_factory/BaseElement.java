@@ -2,6 +2,7 @@ package element_factory;
 
 import core.driver.Driver;
 import core.driver.Waiter;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -50,12 +51,14 @@ public abstract class BaseElement {
                 .until(ExpectedConditions.elementToBeClickable(locator));
     }
 
+    @Step("Click (Actions): {this.locator}")
     public void clickAction() {
         waitForClickability();
         new Actions(driver).moveToElement(getElement()).click().perform();
         log.info("Clicked Actions:{}", locator);
     }
 
+    @Step("Click: {this.locator}")
     public void click() {
         waitForClickability();
         getElement().click();

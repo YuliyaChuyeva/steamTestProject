@@ -3,6 +3,7 @@ package service.pages;
 import core.util.Lang;
 import element_factory.Button;
 import element_factory.Label;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import service.ui_object.Game;
@@ -23,6 +24,7 @@ public class GamePage extends AbstractPage {
         return new Game(title, price, releaseDate);
     }
 
+    @Step("Add game to cart")
     public GamePage addToCart() {
         addtoCartBtn.scrollToElement();
         addtoCartBtn.click();
@@ -30,15 +32,18 @@ public class GamePage extends AbstractPage {
         return this;
     }
 
+    @Step("Open view my cart")
     public GamePage viewMyCart() {
         viewMyCart.click();
         return this;
     }
 
+    @Step("Check 'Added to cart' confirmation is shown")
     public boolean isAddedToCartMessageShown() {
         return addedToCartConfirmation.getText().contains(Lang.get("cart.added"));
     }
 
+    @Step("Close 'Add to cart' modal if visible")
     public GamePage closeAddToCartModalIfVisible() {
         try {
             Button closeModal = new Button(By.xpath("//div[@class='closeButton']"));

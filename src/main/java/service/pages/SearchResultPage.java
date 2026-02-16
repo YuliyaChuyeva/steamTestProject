@@ -1,6 +1,8 @@
 package service.pages;
 
-import element_factory.*;
+import element_factory.Label;
+import element_factory.Link;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import service.ui_object.Game;
 
@@ -10,6 +12,7 @@ public class SearchResultPage extends AbstractPage {
     private Label firstGameprice = new Label(By.cssSelector(".search_result_row:first-child .discount_final_price"));
     private Label firstGameReleaseDate = new Label(By.cssSelector(".search_result_row:first-child .search_released"));
 
+    @Step("Read first game data from search results")
     public Game getFirstGameData() {
         String title = firstGameTitleLabel.getText();
         String price = firstGameprice.getText();
@@ -17,11 +20,13 @@ public class SearchResultPage extends AbstractPage {
         return new Game(title, price, releasedDate);
     }
 
+    @Step("Click first game in search results")
     public SearchResultPage clickFirstGame() {
         firstGameLink.click();
         return this;
     }
 
+    @Step("Get first game title from search results")
     public String getFirstGameTitle() {
         return firstGameTitleLabel.getText();
     }

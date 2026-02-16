@@ -1,6 +1,7 @@
 package service.pages.menu;
 
 import element_factory.Label;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import service.pages.AbstractPage;
 
@@ -24,12 +25,12 @@ public class CategoriesSubMenu extends AbstractPage {
         return names;
     }
 
+    @Step("Click random category")
     public String clickRandomCategory() {
         List<Label> categoryLinks = new Label(CATEGORY_LINK).findAll();
         List<Label> categoryNameLabels = new Label(CATEGORY_NAME).findAll();
         int categoriesCount = Math.min(categoryLinks.size(), categoryNameLabels.size());
         if (categoriesCount == 0) throw new IllegalStateException("No categories on page!");
-
         List<Integer> indexesWithName = IntStream.range(0, categoriesCount)
                 .filter(i -> !categoryNameLabels.get(i).getText().isBlank())
                 .boxed()

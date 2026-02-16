@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="GameDataConsistencySuite" verbose="1">
+    <listeners>
+        <listener class-name="listener.TestListener"/>
+    </listeners>
+    <!--    <test name="Cart + GameDetails (parallel methods)" parallel="methods" thread-count="4">-->
+    <!--        <classes>-->
+    <!--            <class name="CartTest"/>-->
+    <!--            <class name="GameDetailsComparisonTest"/>-->
+    <!--        </classes>-->
+    <!--    </test>-->
+    <test name="Categories + Download (parallel classes)" parallel="classes" thread-count="1">
+        <classes>
+            <class name="CategoriesRandomTest"/>
+<!--            <class name="CartTest"/>-->
+            <class name="DownloadSteamTest"/>
+        </classes>
+    </test>
+</suite>
