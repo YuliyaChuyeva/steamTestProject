@@ -1,9 +1,10 @@
 package service.pages.menu;
 
-import core.util.PropertiesReader;
 import core.driver.Waiter;
+import core.util.PropertiesReader;
 import element_factory.Button;
 import element_factory.Label;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 
@@ -18,6 +19,7 @@ public class HeaderMenu {
     private final Label languagePullDown = new Label(By.id("language_pulldown"));
     private final String LANGUAGE_OPTION_XPATH = "//a[contains(@href, 'l=%s')]";
 
+    @Step("Change language")
     public void changeLanguage() {
         String actualLang = htmlTag.getAttribute("lang").trim().toLowerCase();
         String expectedLangCode = PropertiesReader.getInstance().getLanguage();
@@ -38,15 +40,18 @@ public class HeaderMenu {
         new Label(getMenuByText(main.getMenuId())).hover();
     }
 
+    @Step("Open Install Steam page")
     public void openInstallSteam() {
         installSteam.click();
     }
 
+    @Step("Navigate: {main} -> {sub}")
     public void navigate(HeaderMenuOption main, StoreSubMenuOption sub) {
         hover(main);
         new Label(getSubMenuItemLocator(sub.getDisplayName())).click();
     }
 
+    @Step("Navigate to: {main}")
     public void navigate(HeaderMenuOption main) {
         new Label(getMenuByAboutSupport(main.getDisplayName())).click();
     }

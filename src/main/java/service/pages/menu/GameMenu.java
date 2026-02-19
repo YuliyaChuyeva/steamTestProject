@@ -2,6 +2,7 @@ package service.pages.menu;
 
 import element_factory.Label;
 import element_factory.SearchBox;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import service.pages.SearchResultPage;
 
@@ -22,24 +23,29 @@ public class GameMenu {
         return By.xpath(String.format(GAME_SUBMENU_XPATH, subMenuOption.getDisplayName()));
     }
 
+    @Step("Navigate menu: {menuOption} -> {subMenuOption}")
     public void navigate(GameMenuOption menuOption, GameSubMenuOption subMenuOption) {
         new Label(getMenuItem(menuOption)).click();
         new Label(getSubMenuItem(subMenuOption)).click();
     }
 
+    @Step("Navigate menu: {menuOption}")
     public void navigate(GameMenuOption menuOption) {
         new Label(getMenuItem(menuOption)).click();
     }
 
+    @Step("Search game: {query}")
     public SearchResultPage searchGame(String query) {
         new SearchBox(SEARCH_INPUT).search(query);
         return new SearchResultPage();
     }
 
+    @Step("Open cart")
     public void openCart() {
         cartLink.click();
     }
 
+    @Step("Open Categories Menu")
     public CategoriesSubMenu openCategoriesMenu() {
         navigate(GameMenuOption.CATEGORIES);
         FIRST_CATEGORY_NAME.waitForVisibility();
